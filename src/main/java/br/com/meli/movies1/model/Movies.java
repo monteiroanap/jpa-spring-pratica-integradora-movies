@@ -3,6 +3,7 @@ package br.com.meli.movies1.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,13 +34,22 @@ public class Movies {
 
     @Column(name = "release_date")
 //    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime releaseDate;
+    private LocalDate releaseDate;
 
     @Column
     private Integer lenght;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    // lazy economia de recurso, o genre so vai ser carregado quando for especificado
+    //eager sempre carrega  tudo do objeto
     @JoinColumn(name = "fk_genres", nullable = false)
     private Genres genres;
+
+
+    @PrePersist
+    public void setup(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 
 }
