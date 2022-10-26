@@ -1,7 +1,9 @@
 package br.com.meli.movies1.model;
 
+import br.com.meli.movies1.request_dto.GenresRequestDto;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "genres")
 @Data
+@NoArgsConstructor
 public class Genres {
 
     @Id
@@ -33,6 +36,19 @@ public class Genres {
     @Column
     private boolean active;
 
+    public Genres(Integer id) {
+        this.id = id;
+    }
+
+
+    public Genres(GenresRequestDto genresRequestDto) {
+        this.id = genresRequestDto.getId();
+        this.name = genresRequestDto.getName();
+        this.ranking = genresRequestDto.getRanking();
+        this.active = genresRequestDto.isActive();
+        this.updatedAt = LocalDateTime.now();
+    }
+
     @PrePersist
     public void setup(){
         this.createdAt = LocalDateTime.now();
@@ -42,4 +58,5 @@ public class Genres {
     public void setupUpdatedAt(){
         this.updatedAt = LocalDateTime.now();
     }
+
 }

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/genres")
@@ -28,4 +27,17 @@ public class GenresController {
     public ResponseEntity<Object> getAllGenres(){
         return new ResponseEntity<>(genresService.getAllGenres(),HttpStatus.OK);
     }
+    @PutMapping
+    public ResponseEntity<Object> updateGenres(@RequestBody GenresRequestDto genresRequestDto) throws Exception{
+        GenresResponseDto genresUpdated = genresService.update(genresRequestDto);
+        return new ResponseEntity<>(genresUpdated, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGenres(@PathVariable Integer id){
+        genresService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
 }

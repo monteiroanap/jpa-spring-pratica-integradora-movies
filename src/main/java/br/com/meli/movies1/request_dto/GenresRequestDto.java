@@ -15,4 +15,6 @@ public class GenresRequestDto implements Serializable {
 
     @NotNull
     private boolean active;
+
+    private Integer id;
 }

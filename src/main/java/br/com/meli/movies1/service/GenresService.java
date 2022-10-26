@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,5 +29,22 @@ public class GenresService {
         List<Genres> genres = genresRepository.findAll();
         return genres.stream().map(GenresResponseDto::new).collect(Collectors.toList()); // metodo por referencia
        //return genres.stream().map(g -> new GenresResponseDto(g)).collect(Collectors.toList()); - lambda
+    }
+
+    public Optional<Genres> getById(Integer id){
+        return genresRepository.findById(id);
+    }
+
+    public GenresResponseDto update(GenresRequestDto genresRequestDto) throws Exception{
+        Optional<Genres> genresOptional = getById(genresRequestDto.getId());
+        if(genresOptional.isPresent()){
+            Genres genres = genresRepository.save(new Genres(genresRequestDto));
+            return new GenresResponseDto(genres);
+        }
+        throw new Exception("Id nao encontrado");
+    }
+
+    public void delete(Integer id) {
+        genresRepository.delete(new Genres(id));
     }
 }

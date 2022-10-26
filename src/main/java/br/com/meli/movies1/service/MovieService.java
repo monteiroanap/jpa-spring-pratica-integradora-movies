@@ -41,4 +41,5 @@ public class MovieService {
         List<Movies> movies = movieRepository.findAll();
         return movies.stream().map(MoviesResponseDto::new).collect(Collectors.toList());
     }
+
 }

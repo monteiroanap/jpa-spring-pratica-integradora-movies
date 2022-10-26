@@ -40,10 +40,11 @@ public class Movies {
     private Integer lenght;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    // lazy economia de recurso, o genre so vai ser carregado quando for especificado
-    //eager sempre carrega  tudo do objeto
     @JoinColumn(name = "fk_genres", nullable = false)
     private Genres genres;
+
+    //ManyToOne: (generos)- o mesmo genero para varios filmes; - perspesctiva do genero
+                           // um filme so tem um genero - perspectiva do filme
 
 
     @PrePersist
