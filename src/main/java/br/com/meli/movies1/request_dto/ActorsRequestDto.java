@@ -7,6 +7,8 @@ import java.io.Serializable;
 @Getter
 public class ActorsRequestDto implements Serializable {
 
+    private Integer id;
+
     @NotNull
     private String firstName;
 

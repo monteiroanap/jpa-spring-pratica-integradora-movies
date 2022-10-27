@@ -1,10 +1,12 @@
 package br.com.meli.movies1.model;
 
+import br.com.meli.movies1.request_dto.ActorsRequestDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+@NoArgsConstructor
 @Entity
 @Table(name = "actors")
 @Data
@@ -39,4 +41,19 @@ public class Actors {
     // ManyToOne: Um filme pode ser de muitos atores - perpectiva do filme
                  // um ator so tem um filme - perpectiva do ator
 
+
+    public Actors(ActorsRequestDto actorsRequestDto) {
+        this.id = actorsRequestDto.getId();
+        this.updatedAt = LocalDateTime.now();
+        this.firstName = actorsRequestDto.getFirstName();
+        this.lastName = actorsRequestDto.getLastName();
+        this.rating = actorsRequestDto.getRating();
+        if(actorsRequestDto.getFavoriteMovies() != null){
+            this.movies = new Movies(actorsRequestDto.getFavoriteMovies());
+        }
+    }
+
+    public Actors(Integer id) {
+        this.id = id;
+    }
 }

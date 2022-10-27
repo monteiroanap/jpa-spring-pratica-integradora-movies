@@ -56,6 +56,11 @@ public class MovieService {
     }
 
     public void delete(Integer id) throws Exception {
-        movieRepository.delete(new Movies(id));
+        Optional<Movies> moviesOptional = getById(id);
+        if (moviesOptional.isPresent()) {
+            movieRepository.delete(new Movies(id));
+        }else{
+            throw new Exception("filme nao encontrado");
+        }
     }
 }

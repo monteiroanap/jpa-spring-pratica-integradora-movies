@@ -43,7 +43,7 @@ public class MoviesController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteMovies(@PathVariable Integer id) {
+    public ResponseEntity<Object> deleteMovies(@PathVariable @Valid Integer id) {
         try {
             movieService.delete(id);
         } catch (Exception e) {

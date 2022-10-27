@@ -39,4 +39,26 @@ public class ActorsService {
         List<Actors> actors = actorsRepository.findAll();
         return actors.stream().map(ActorsResponseDto::new).collect(Collectors.toList());
     }
+
+    public Optional<Actors> getById(Integer id) {
+        return actorsRepository.findById(id);
+    }
+
+    public ActorsResponseDto updateActors (ActorsRequestDto actorsRequestDto) throws Exception{
+        Optional<Actors> actorsOptional = getById(actorsRequestDto.getId());
+        if(actorsOptional.isPresent()){
+            Actors actors = actorsRepository.save(new Actors(actorsRequestDto));
+            return new ActorsResponseDto(actors);
+        }
+        throw new Exception("id do ator nao encontrado");
+    }
+
+    public void delete(Integer id) throws Exception {
+        Optional<Actors> actorsOptional = getById(id);
+        if (actorsOptional.isPresent()) {
+            actorsRepository.delete(new Actors(id));
+        }else {
+            throw new Exception("ator nao encontrado");
+        }
+    }
 }
