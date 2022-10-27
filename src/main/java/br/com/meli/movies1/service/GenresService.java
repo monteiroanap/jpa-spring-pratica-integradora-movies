@@ -7,6 +7,7 @@ import br.com.meli.movies1.response_dto.GenresResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,7 +45,7 @@ public class GenresService {
         throw new Exception("Id nao encontrado");
     }
 
-    public void delete(Integer id) {
+    public void delete(Integer id) throws SQLIntegrityConstraintViolationException {
         genresRepository.delete(new Genres(id));
     }
 }

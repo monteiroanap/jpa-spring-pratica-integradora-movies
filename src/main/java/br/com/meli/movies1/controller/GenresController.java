@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 
 @RestController
 @RequestMapping("/genres")
@@ -24,20 +26,22 @@ public class GenresController {
         return new ResponseEntity<>(genresResponseDto,HttpStatus.CREATED);
     }
     @GetMapping
-    public ResponseEntity<Object> getAllGenres(){
+    public ResponseEntity<Object> getAllGenres() {
         return new ResponseEntity<>(genresService.getAllGenres(),HttpStatus.OK);
     }
     @PutMapping
-    public ResponseEntity<Object> updateGenres(@RequestBody GenresRequestDto genresRequestDto) throws Exception{
+    public ResponseEntity<Object> updateGenres(@RequestBody GenresRequestDto genresRequestDto) throws Exception {
         GenresResponseDto genresUpdated = genresService.update(genresRequestDto);
         return new ResponseEntity<>(genresUpdated, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGenres(@PathVariable Integer id){
-        genresService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Object> deleteGenres(@PathVariable Integer id) {
+        try {
+            genresService.delete(id);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            return new ResponseEntity<>("erro ao deletar o genero",HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>("genero deletado com sucesso",HttpStatus.OK);
     }
-
-
 }

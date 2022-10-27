@@ -31,4 +31,25 @@ public class MoviesController {
         return new ResponseEntity<>(movieService.getAllMovies(),HttpStatus.OK);
     }
 
+    @PutMapping
+    public ResponseEntity<Object> updatedMovie(@RequestBody @Valid MoviesRequestDto moviesRequestDto) {
+        MoviesResponseDto moviesUpdate = null;
+        try {
+            moviesUpdate = movieService.update(moviesRequestDto);
+        } catch (Exception e) {
+            return new ResponseEntity<>("erro ao atualizar o filme ",HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(moviesUpdate,HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> deleteMovies(@PathVariable Integer id) {
+        try {
+            movieService.delete(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>("filme nao deletado", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("filme deletado com sucesso", HttpStatus.OK);
+    }
+
 }

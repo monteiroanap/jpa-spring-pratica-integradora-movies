@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "genres")
@@ -36,9 +37,14 @@ public class Genres {
     @Column
     private boolean active;
 
+    @OneToMany(mappedBy = "genres")
+    private List<Movies> movies;
+     //um genero pode estar em muitos filmes
+
     public Genres(Integer id) {
         this.id = id;
     }
+
 
 
     public Genres(GenresRequestDto genresRequestDto) {

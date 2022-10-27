@@ -42,4 +42,20 @@ public class MovieService {
         return movies.stream().map(MoviesResponseDto::new).collect(Collectors.toList());
     }
 
+    private Optional<Movies> getById(Integer id) {
+        return movieRepository.findById(id);
+    }
+
+    public MoviesResponseDto update(MoviesRequestDto moviesRequestDto) throws Exception{
+        Optional<Movies> moviesOptional = getById(moviesRequestDto.getId());
+        if(moviesOptional.isPresent()){
+            Movies movies = movieRepository.save(new Movies(moviesRequestDto));
+            return new MoviesResponseDto(movies);
+        }
+        throw new Exception("filme nao atualizado");
+    }
+
+    public void delete(Integer id) throws Exception {
+        movieRepository.delete(new Movies(id));
+    }
 }

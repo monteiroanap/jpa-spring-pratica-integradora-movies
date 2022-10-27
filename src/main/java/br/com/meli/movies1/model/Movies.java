@@ -1,6 +1,8 @@
 package br.com.meli.movies1.model;
 
+import br.com.meli.movies1.request_dto.MoviesRequestDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "movies")
 @Data
+@NoArgsConstructor
 public class Movies {
 
     @Id
@@ -40,17 +43,29 @@ public class Movies {
     private Integer lenght;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    // muitos filmes tem apenas UM genero
     @JoinColumn(name = "fk_genres", nullable = false)
     private Genres genres;
 
-    //ManyToOne: (generos)- o mesmo genero para varios filmes; - perspesctiva do genero
-                           // um filme so tem um genero - perspectiva do filme
 
+    public Movies(MoviesRequestDto moviesRequestDto) {
+        this.id = moviesRequestDto.getId();
+        this.title = moviesRequestDto.getTitle();
+        this.rating = moviesRequestDto.getRating();
+        this.awards = moviesRequestDto.getAwards();
+        this.lenght = moviesRequestDto.getLenght();
+        this.genres = new Genres(moviesRequestDto.getGenre());
+        this.releaseDate = moviesRequestDto.getReleaseDate();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public Movies(Integer id) {
+        this.id = id;
+    }
 
     @PrePersist
     public void setup(){
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
-
 }
