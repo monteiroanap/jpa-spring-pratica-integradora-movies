@@ -37,15 +37,13 @@ public class Genres {
     @Column
     private boolean active;
 
-    @OneToMany(mappedBy = "genres")
-    private List<Movies> movies;
-     //um genero pode estar em muitos filmes
+//    @OneToMany(mappedBy = "genres")
+//    private List<Movies> movies;
+//     //um genero pode estar em muitos filmes
 
     public Genres(Integer id) {
         this.id = id;
     }
-
-
 
     public Genres(GenresRequestDto genresRequestDto) {
         this.id = genresRequestDto.getId();

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
+
 @NoArgsConstructor
 @Entity
 @Table(name = "actors")
@@ -40,6 +42,9 @@ public class Actors {
 
     // ManyToOne: Um filme pode ser de muitos atores - perpectiva do filme
                  // um ator so tem um filme - perpectiva do ator
+
+    @OneToMany(mappedBy = "actors", cascade ={CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<ActorsMovies> actorMovies;
 
 
     public Actors(ActorsRequestDto actorsRequestDto) {

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -46,6 +47,9 @@ public class Movies {
     // muitos filmes tem apenas UM genero
     @JoinColumn(name = "fk_genres", nullable = false)
     private Genres genres;
+
+    @OneToMany(mappedBy = "movies", cascade ={CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<ActorsMovies> actorMovies;
 
 
     public Movies(MoviesRequestDto moviesRequestDto) {
