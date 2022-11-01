@@ -6,14 +6,15 @@ import br.com.meli.movies1.model.Movies;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Getter
-public class ActorsMoviesRequestDto {
+public class ActorsMoviesRequestDto implements Serializable {
 
     @NotNull
-    private Actors idActors;
+    private Integer idActors;
 
     @NotNull
-    private Movies idMovies;
+    private Integer idMovies;
 
 }

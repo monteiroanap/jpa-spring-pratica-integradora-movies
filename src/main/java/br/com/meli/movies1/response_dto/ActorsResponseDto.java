@@ -4,10 +4,11 @@ import br.com.meli.movies1.model.Actors;
 import lombok.Getter;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
-public class ActorsResponseDto {
+public class ActorsResponseDto implements Serializable {
 
     private Integer id;
     private LocalDateTime createdAt;

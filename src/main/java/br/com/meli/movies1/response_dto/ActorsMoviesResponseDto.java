@@ -4,10 +4,11 @@ import br.com.meli.movies1.model.ActorsMovies;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
-public class ActorsMoviesResponseDto {
+public class ActorsMoviesResponseDto implements Serializable {
     private Long id;
     private LocalDateTime createdAt ;
     private LocalDateTime updatedAt;

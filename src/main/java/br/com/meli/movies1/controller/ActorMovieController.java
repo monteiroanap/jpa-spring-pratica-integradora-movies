@@ -8,14 +8,17 @@ import br.com.meli.movies1.service.ActorsMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/actorsMovies")
+@Validated
 public class ActorMovieController {
 
     @Autowired
@@ -35,9 +38,24 @@ public class ActorMovieController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> createActorsMovies(@RequestBody ActorsMoviesRequestDto actorsMoviesRequestDto) {
+    public ResponseEntity<Object> createActorsMovies(@RequestBody @Valid ActorsMoviesRequestDto actorsMoviesRequestDto) {
+        try {
+            ActorsMovies actorsMovies = actorsMoviesService.createActorMovies(actorsMoviesRequestDto);
+            ActorsMoviesResponseDto actorsMoviesResponseDto = new ActorsMoviesResponseDto(actorsMovies);
+            return new ResponseEntity<>(actorsMoviesResponseDto, HttpStatus.CREATED);
 
-
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
-    //receber no json o id do ator e filme qu eu quero vincular
+
+    @DeleteMapping("/{idActor}/{idMovie}")
+    public ResponseEntity<Object> deleteActorMovies(@PathVariable @Valid Integer idActor, @PathVariable @Valid Integer idMovie) {
+        try {
+            actorsMoviesService.deleteActorsMovies(idActor, idMovie);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("relacionamento deletado com sucesso", HttpStatus.OK);
+    }
 }

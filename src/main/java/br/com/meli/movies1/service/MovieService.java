@@ -42,7 +42,7 @@ public class MovieService {
         return movies.stream().map(MoviesResponseDto::new).collect(Collectors.toList());
     }
 
-    private Optional<Movies> getById(Integer id) {
+    public Optional<Movies> getById(Integer id) {
         return movieRepository.findById(id);
     }
 
